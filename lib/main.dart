@@ -7,7 +7,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Seismic App',
         home: Home(),
         theme: ThemeData(
           primaryColor: Colors.lightBlue,
