@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'registro.dart';
 import 'evacuacion.dart';
-import 'contactos.dart';
+import 'Ajustes.dart';
+import 'contactos2.dart';
 
 class Home extends StatefulWidget {
   HomeState createState() => HomeState();
@@ -16,7 +17,7 @@ class HomeState extends State<Home> {
       case 1:
         return Evacuacion();
       case 2:
-        return Contactos();
+        return Contactos2();
     }
   }
 
@@ -31,6 +32,15 @@ class HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Seismic App'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            tooltip: 'Ajustes',
+            onPressed: () {
+              return Ajustes();
+            },
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -51,6 +61,7 @@ class HomeState extends State<Home> {
             ),
             ListTile(
                 title: Text('Registro de sismos'),
+                subtitle: Text('Para ver mas detalles del sismo solo pulselo'),
                 leading: Icon(Icons.list),
                 onTap: () {
                   _onSelect(0);
@@ -63,7 +74,9 @@ class HomeState extends State<Home> {
                 }),
             ListTile(
               title: Text('Contactos de Emergencia'),
-              leading: Icon(Icons.local_hospital),
+              subtitle: Text(
+                  'Para realizar una llamada de emergencia solo pulse el destinatario'),
+              leading: Icon(Icons.call),
               onTap: () {
                 _onSelect(2);
               },
