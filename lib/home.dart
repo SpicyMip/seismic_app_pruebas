@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'registro.dart';
 import 'evacuacion.dart';
-import 'Ajustes.dart';
 import 'contactos2.dart';
+import 'nosotros.dart';
 
 class Home extends StatefulWidget {
   HomeState createState() => HomeState();
@@ -10,6 +10,7 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
   int _selectItem = 0;
+  var _nameAppBar = Text('Registro de sismos');
   _getDrawerItemWidget(int pos) {
     switch (pos) {
       case 0:
@@ -18,6 +19,10 @@ class HomeState extends State<Home> {
         return Evacuacion();
       case 2:
         return Contactos2();
+      case 3:
+        return null;
+      case 4:
+        return Nosotros();
     }
   }
 
@@ -25,19 +30,40 @@ class HomeState extends State<Home> {
     setState(() {
       _selectItem = pos;
     });
+    Navigator.of(context).pop();
+  }
+
+  _getAppBar(int pos) {
+    switch (pos) {
+      case 0:
+        _nameAppBar = Text('Registro de sismos');
+        return _nameAppBar;
+      case 1:
+        _nameAppBar = Text('Vias de evacuación');
+        return _nameAppBar;
+      case 2:
+        _nameAppBar = Text('Contactos de emergencia');
+        return _nameAppBar;
+      case 3:
+        _nameAppBar = Text('Ajustes y Preferencias');
+        return _nameAppBar;
+      case 4:
+        _nameAppBar = Text('Acerca de nosotros');
+        return _nameAppBar;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Seismic App'),
+        title: _getAppBar(_selectItem),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.settings),
             tooltip: 'Ajustes',
             onPressed: () {
-              return Ajustes();
+              _onSelect(3);
             },
           ),
         ],
@@ -68,6 +94,8 @@ class HomeState extends State<Home> {
                 }),
             ListTile(
                 title: Text('Vias de Evacuacion'),
+                subtitle: Text(
+                    'Aqui podra ver su via de evacuacion mas cercana en caso de estar en zona de tsunami'),
                 leading: Icon(Icons.map),
                 onTap: () {
                   _onSelect(1);
@@ -79,6 +107,14 @@ class HomeState extends State<Home> {
               leading: Icon(Icons.call),
               onTap: () {
                 _onSelect(2);
+              },
+            ),
+            Divider(),
+            ListTile(
+              title: Text('Acerca de nosotros'),
+              leading: Icon(Icons.account_circle),
+              onTap: () {
+                _onSelect(4);
               },
             ),
           ],
