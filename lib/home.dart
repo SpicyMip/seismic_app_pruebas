@@ -27,10 +27,10 @@ class HomeState extends State<Home> {
   }
 
   _onSelect(int pos) {
+    Navigator.of(context).pop();
     setState(() {
       _selectItem = pos;
     });
-    Navigator.of(context).pop();
   }
 
   _getAppBar(int pos) {
@@ -89,6 +89,7 @@ class HomeState extends State<Home> {
                 title: Text('Registro de sismos'),
                 subtitle: Text('Para ver mas detalles del sismo solo pulselo'),
                 leading: Icon(Icons.list),
+                selected: (0 == _selectItem),
                 onTap: () {
                   _onSelect(0);
                 }),
@@ -97,6 +98,7 @@ class HomeState extends State<Home> {
                 subtitle: Text(
                     'Aqui podra ver su via de evacuacion mas cercana en caso de estar en zona de tsunami'),
                 leading: Icon(Icons.map),
+                selected: (1 == _selectItem),
                 onTap: () {
                   _onSelect(1);
                 }),
@@ -105,6 +107,7 @@ class HomeState extends State<Home> {
               subtitle: Text(
                   'Para realizar una llamada de emergencia solo pulse el destinatario'),
               leading: Icon(Icons.call),
+              selected: (2 == _selectItem),
               onTap: () {
                 _onSelect(2);
               },
@@ -113,6 +116,7 @@ class HomeState extends State<Home> {
             ListTile(
               title: Text('Acerca de nosotros'),
               leading: Icon(Icons.account_circle),
+              selected: (4 == _selectItem),
               onTap: () {
                 _onSelect(4);
               },
