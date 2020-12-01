@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 class Evacuacion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-<<<<<<< Updated upstream
-    return Center(child: Text('Vias de Evacuacion'));
-=======
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -23,6 +20,5 @@ class Evacuacion extends StatelessWidget {
         ),
       ),
     );
->>>>>>> Stashed changes
   }
 }
