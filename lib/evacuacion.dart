@@ -12,6 +12,14 @@ class Evacuacion extends StatefulWidget {
 
 class _EvacuacionState extends State<Evacuacion> {
   GoogleMapController _mapController;
+  var safezonas = [
+    [-33.009166923158446, -71.53554289650576],
+    [-33.004820218540004, -71.54483746198514],
+    [-32.99599129943124, -71.54254821773232],
+    [-32.98983886453856, -71.54475200798443],
+    [-33.02203180076847, -71.51743496129272],
+    [-33.01990308579516, -71.56429170615716],
+  ];
 
   @override
   Widget build(BuildContext context) {
