@@ -33,4 +33,41 @@ class Temblores {
       fechaUpdate: json['FechaUpdate'] as String,
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'Fecha': this.fecha,
+      'Latitud': this.latitud,
+      'Longitud': this.longitud,
+      'Profundidad': this.profundidad,
+      'Magnitud': this.magnitud,
+      'Agencia': this.agencia,
+      'RefGeografica': this.refGeografica,
+      'FechaUpdate': this.fechaUpdate
+    };
+  }
+}
+
+Temblores createTemblor(record) {
+  Map<String, dynamic> attributes = {
+    'Fecha': '',
+    'Latitud': '',
+    'Longitud': '',
+    'Profundidad': '',
+    'Magnitud': '',
+    'Agencia': '',
+    'RefGeografica': '',
+    'FechaUpdate': ''
+  };
+  record.forEach((key, value) => {attributes[key] = value});
+  Temblores temblor = new Temblores(
+    fecha: attributes['Fecha'],
+    latitud: attributes['Latitud'],
+    longitud: attributes['Longitud'],
+    profundidad: attributes['Profundidad'],
+    magnitud: attributes['Magnitud'],
+    agencia: attributes['Agencia'],
+    refGeografica: attributes['RefGeografica'],
+    fechaUpdate: attributes['FechaUpdate'],
+  );
+  return temblor;
 }
