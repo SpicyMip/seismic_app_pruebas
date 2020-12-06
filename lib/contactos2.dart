@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Contactos2 extends StatelessWidget {
+  void customLaunch(command) async {
+    if (await canLaunch(command)) {
+      await launch(command);
+    } else {
+      print("Ha ocurrido un problema $command");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +33,9 @@ class Contactos2 extends StatelessWidget {
                         style: TextStyle(fontSize: 18.0),
                       ),
                       subtitle: Text('131'),
-                      onTap: () {},
+                      onTap: () {
+                        customLaunch("tel: 131");
+                      },
                     )
                   ],
                 )),
@@ -46,7 +57,7 @@ class Contactos2 extends StatelessWidget {
                       ),
                       subtitle: Text("133"),
                       onTap: () {
-                        return null;
+                        customLaunch("tel: 133");
                       },
                     )
                   ],
@@ -69,7 +80,7 @@ class Contactos2 extends StatelessWidget {
                       ),
                       subtitle: Text('132'),
                       onTap: () {
-                        return null;
+                        customLaunch("tel: 132");
                       },
                     )
                   ],
