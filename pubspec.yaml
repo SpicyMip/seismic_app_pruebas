@@ -29,7 +29,10 @@ dependencies:
   provider: ^4.3.2+2
   location: ^3.1.0
   geolocator: ^6.1.10
+<<<<<<< Updated upstream
   url_launcher: ^5.1.2
+=======
+>>>>>>> Stashed changes
 
 
   # The following adds the Cupertino Icons font to your application.
