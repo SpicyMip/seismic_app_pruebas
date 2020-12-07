@@ -1,11 +1,3 @@
-<<<<<<< Updated upstream
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-class Evacuacion extends StatefulWidget {
-  final LatLng fromPoint = LatLng(-33.016458927972565, -71.55328516751443);
-  final LatLng toPoint = LatLng(-33.015610327842495, -71.5350427572602);
-=======
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -14,19 +6,15 @@ import 'package:geolocator/geolocator.dart';
 
 class Evacuacion extends StatefulWidget {
   final LatLng fromPoint = LatLng(-33.016458927972565, -71.55328516751443);
->>>>>>> Stashed changes
   @override
   _EvacuacionState createState() => _EvacuacionState();
 }
 
 class _EvacuacionState extends State<Evacuacion> {
-<<<<<<< Updated upstream
-=======
   final Geolocator geolocator = Geolocator();
   Position _currentPosition;
   var _onOf = false;
-  var _point = [-33.020852694572724, -71.56565563835588];
->>>>>>> Stashed changes
+  //var _point = [-33.020852694572724, -71.56565563835588];
   var dontsafezona = [
     [-32.99116247949983, -71.54877627322703],
     [-33.00026526821508, -71.55028367662528],
@@ -74,19 +62,6 @@ class _EvacuacionState extends State<Evacuacion> {
     [-32.99141763648258, -71.5472624908634],
   ];
   var safezonas = [
-<<<<<<< Updated upstream
-    [-33.009166923158446, -71.53554289650576],
-    [-32.99599129943124, -71.54254821773232],
-    [-32.98983886453856, -71.54475200798443],
-    [-33.02203180076847, -71.51743496129272],
-    [-33.01990308579516, -71.56429170615716],
-    [-33.032377408884976, -71.56473445014508],
-    [-33.02815260157279, -71.55242405147742],
-    [-33.03756952838828, -71.54670457326169],
-    [-33.038385120449725, -71.52777722773263],
-  ];
-  var makersOn = false;
-=======
     [-33.009166923158446, -71.53554289650576, "0"],
     [-32.99599129943124, -71.54254821773232, "1"],
     [-32.98983886453856, -71.54475200798443, "2"],
@@ -103,7 +78,7 @@ class _EvacuacionState extends State<Evacuacion> {
     _getCurrentLocation();
   }
 
-  _getCurrentLocation() {
+  _getCurrentLocation() async {
     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       setState(() {
@@ -114,31 +89,22 @@ class _EvacuacionState extends State<Evacuacion> {
     });
   }
 
->>>>>>> Stashed changes
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: [
       GoogleMap(
         initialCameraPosition: CameraPosition(
-<<<<<<< Updated upstream
-          target: widget.fromPoint,
-=======
           target: LatLng(_currentPosition.latitude, _currentPosition.longitude),
->>>>>>> Stashed changes
           zoom: 16,
         ),
         mapType: MapType.hybrid,
         polygons: _createPolygon(),
         markers: _createMarkers(),
+        //polylines: _createPolyline(),
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
       ),
-<<<<<<< Updated upstream
-    ]));
-  }
-
-=======
       FloatingActionButton(
         child: Icon(Icons.add_location),
         onPressed: () {
@@ -150,12 +116,16 @@ class _EvacuacionState extends State<Evacuacion> {
 
   _isInZona() {
     dynamic distanceMax = 0;
+    dynamic distanceMin = 999;
     for (var i in dontsafezona) {
       for (var k in dontsafezona) {
         dynamic distance =
             (sqrt(pow((i[0] - k[0]), 2) + pow((i[1] - k[1]), 2))).round();
         if (distance >= distanceMax) {
           distanceMax = distance;
+        }
+        if (distance <= distanceMin) {
+          distanceMin = distance;
         }
       }
     }
@@ -179,18 +149,13 @@ class _EvacuacionState extends State<Evacuacion> {
     }
   }
 
->>>>>>> Stashed changes
   Set<Marker> _createMarkers() {
     var tmp = Set<Marker>();
     for (var i in safezonas) {
       tmp.add(Marker(
-<<<<<<< Updated upstream
-          markerId: MarkerId('Zona Segura'), position: LatLng(i[0], i[1])));
-=======
           markerId: MarkerId(i[2]),
           visible: _onOf,
           position: LatLng(i[0], i[1])));
->>>>>>> Stashed changes
     }
     return tmp;
   }
@@ -203,22 +168,25 @@ class _EvacuacionState extends State<Evacuacion> {
     }
     pl.add(
       Polygon(
-<<<<<<< Updated upstream
-        polygonId: PolygonId('Zona de Emergencia'),
-        points: lista,
-        strokeWidth: 2,
-        strokeColor: Colors.yellow[400],
-        fillColor: Colors.red.shade800.withOpacity(0.15),
-      ),
-=======
           polygonId: PolygonId('Zona de Emergencia'),
           points: lista,
           strokeWidth: 2,
           strokeColor: Colors.yellow[400],
           fillColor: Colors.red.shade800.withOpacity(0.15),
           visible: _onOf),
->>>>>>> Stashed changes
     );
     return pl;
   }
+
+  //Set<Polyline> _createPolyline() {
+  //var pln = Set<Polyline>();
+  //pln.add(Polyline(
+  //polylineId: PolylineId("ruta mas cercana"),
+  //points: [
+  //LatLng(-33.020852694572724, -71.56565563835588),
+  //LatLng(_isInZona().distanceMin[0], _isInZona().distnaceMin[1])
+  //],
+  //visible: _onOf));
+  //return pln;
+  //}
 }
