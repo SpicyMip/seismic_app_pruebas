@@ -22,9 +22,21 @@ class Registro extends StatelessWidget {
                 return ListView(
                   children: temblores
                       .map((Temblores temblores) => Card(
-                              child: ListTile(
-                            title: Text(temblores.fecha),
-                            subtitle: Text(temblores.magnitud),
+                              child: Column(
+                            children: <Widget>[
+                              Text('Referencia: ' + temblores.refGeografica),
+                              Text('Magnitud: ' + temblores.magnitud),
+                              Text(
+                                  'Fecha: ' + temblores.fecha.substring(0, 10)),
+                              Text('Hora: ' +
+                                  temblores.fecha.substring(
+                                    11,
+                                  ) +
+                                  ' Hrs.'),
+                              Text('Profundidad: ' +
+                                  temblores.profundidad +
+                                  ' Km')
+                            ],
                           )))
                       .toList(),
                 );
