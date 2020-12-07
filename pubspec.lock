@@ -191,7 +191,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-<<<<<<< HEAD
   provider:
     dependency: "direct main"
     description:
@@ -199,8 +198,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.2+2"
-=======
->>>>>>> e082e99fe3ef4f0fcb8bcb8ca78d6ceeff678d74
   sky_engine:
     dependency: transitive
     description: flutter
