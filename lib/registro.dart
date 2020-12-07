@@ -1,26 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:seismic_app/Temblores.dart';
-
-import 'package:seismic_app/http_service.dart';
+import 'db.dart';
 
 class Registro extends StatelessWidget {
-  final HttpService httpService = HttpService();
+  //Linea importante
+  final Database data = Database();
+  //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder(
-            future: httpService.getPosts(),
+            //linea importante
+            future: data.getTemblores(),
+            //
             builder: (BuildContext context,
                 AsyncSnapshot<List<Temblores>> snapshot) {
               if (snapshot.hasData) {
                 List<Temblores> temblores = snapshot.data;
+                print(temblores);
 
                 return ListView(
                   children: temblores
                       .map((Temblores temblores) => Card(
-                              child: ListTile(
-                            title: Text(temblores.refGeografica),
-                            subtitle: Text(temblores.magnitud),
+                              child: Column(
+                            children: <Widget>[
+                              Text('Referencia: ' + temblores.refGeografica),
+                              Text('Magnitud: ' + temblores.magnitud),
+                              Text(
+                                  'Fecha: ' + temblores.fecha.substring(0, 10)),
+                              Text('Hora: ' +
+                                  temblores.fecha.substring(
+                                    11,
+                                  ) +
+                                  ' Hrs.'),
+                              Text('Profundidad: ' +
+                                  temblores.profundidad +
+                                  ' Km')
+                            ],
                           )))
                       .toList(),
                 );

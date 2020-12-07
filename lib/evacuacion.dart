@@ -7,7 +7,6 @@ class Evacuacion extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Image.asset('images/mapa.jpg'),
             Text(
               '[Mapa referencial, muestra ubicacion del usuario]',
               style: TextStyle(fontSize: 30),
