@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'registro.dart';
-import 'evacuacion.dart';
+import 'evacuacion2.dart';
 import 'contactos2.dart';
 import 'nosotros.dart';
 
-class Home extends StatefulWidget {
-  HomeState createState() => HomeState();
+class Home2 extends StatefulWidget {
+  Home2State createState() => Home2State();
 }
 
-class HomeState extends State<Home> {
+class Home2State extends State<Home2> {
   int _selectItem = 0;
   var _nameAppBar = Text('Registro de sismos');
   _getDrawerItemWidget(int pos) {
@@ -53,7 +53,6 @@ class HomeState extends State<Home> {
     }
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
