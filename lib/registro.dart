@@ -17,8 +17,6 @@ class Registro extends StatelessWidget {
                 AsyncSnapshot<List<Temblores>> snapshot) {
               if (snapshot.hasData) {
                 List<Temblores> temblores = snapshot.data;
-                print(temblores);
-
                 return ListView(
                   children: temblores
                       .map((Temblores temblores) => Card(
