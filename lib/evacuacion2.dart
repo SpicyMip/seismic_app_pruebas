@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'home copy.dart';
 
 class Evacuacion extends StatefulWidget {
-  final LatLng fromPoint = LatLng(-33.016458927972565, -71.55328516751443);
   @override
   _EvacuacionState createState() => _EvacuacionState();
 }
@@ -13,6 +13,9 @@ class Evacuacion extends StatefulWidget {
 class _EvacuacionState extends State<Evacuacion> {
   final Geolocator geolocator = Geolocator();
   Position _currentPosition;
+  final Home2State home2state = Home2State();
+  GoogleMapController _mapController;
+
   var _onOf = false;
   //var _point = [-33.020852694572724, -71.56565563835588];
   var dontsafezona = [
@@ -72,13 +75,14 @@ class _EvacuacionState extends State<Evacuacion> {
     [-33.03756952838828, -71.54670457326169, "7"],
     [-33.038385120449725, -71.52777722773263, "8"],
   ];
+
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
   }
 
-  _getCurrentLocation() async {
+  _getCurrentLocation() {
     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       setState(() {
@@ -92,31 +96,43 @@ class _EvacuacionState extends State<Evacuacion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(children: [
-      GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: LatLng(_currentPosition.latitude, _currentPosition.longitude),
-          zoom: 16,
-        ),
-        mapType: MapType.hybrid,
-        polygons: _createPolygon(),
-        markers: _createMarkers(),
-        //polylines: _createPolyline(),
-        myLocationEnabled: true,
-        myLocationButtonEnabled: true,
-      ),
-      FloatingActionButton(
-        child: Icon(Icons.add_location),
-        onPressed: () {
-          _isInZona();
-        },
-      )
-    ]));
+        body: _currentPosition == null
+            ? Container(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : Container(
+                child: Stack(children: [
+                GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(
+                        _currentPosition.latitude, _currentPosition.longitude),
+                    zoom: 16,
+                  ),
+                  onMapCreated: _onMapCreated,
+                  mapType: MapType.hybrid,
+                  polygons: _createPolygon(),
+                  markers: _createMarkers(),
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                ),
+                FloatingActionButton(
+                  child: Icon(Icons.add_location),
+                  onPressed: () {
+                    _isInZona();
+                    if (_onOf == true) {
+                      _showDialogAlert(context);
+                    } else {
+                      _showDialog(context);
+                    }
+                  },
+                )
+              ])));
   }
 
   _isInZona() {
     dynamic distanceMax = 0;
-    dynamic distanceMin = 999;
     for (var i in dontsafezona) {
       for (var k in dontsafezona) {
         dynamic distance =
@@ -124,16 +140,9 @@ class _EvacuacionState extends State<Evacuacion> {
         if (distance >= distanceMax) {
           distanceMax = distance;
         }
-        if (distance <= distanceMin) {
-          distanceMin = distance;
-        }
       }
     }
-    //var point = _currentPosition;
     for (var i in dontsafezona) {
-      //dynamic distance =
-      //  (sqrt(pow((i[0] - _point[0]), 2) + pow((i[1] - _point[1]), 2)))
-      //    .round();
       dynamic distance = (sqrt(pow((i[0] - _currentPosition.latitude), 2) +
               pow((i[1] - _currentPosition.longitude), 2)))
           .round();
@@ -149,6 +158,21 @@ class _EvacuacionState extends State<Evacuacion> {
     }
   }
 
+  _showSegureZone() {
+    dynamic distanceMin = 999;
+    var point = [];
+    for (var i in safezonas) {
+      dynamic distance = (sqrt(pow((_currentPosition.latitude - i[0]), 2) +
+              pow((_currentPosition.longitude - i[1]), 2)))
+          .round();
+      if (distance <= distanceMin) {
+        distanceMin = distance;
+        point = i;
+      }
+    }
+    _centerView(point);
+  }
+
   Set<Marker> _createMarkers() {
     var tmp = Set<Marker>();
     for (var i in safezonas) {
@@ -158,6 +182,16 @@ class _EvacuacionState extends State<Evacuacion> {
           position: LatLng(i[0], i[1])));
     }
     return tmp;
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+  }
+
+  _centerView(x) async {
+    await _mapController.getVisibleRegion();
+    var cameraUdapte = CameraUpdate.newLatLng(x);
+    _mapController.animateCamera(cameraUdapte);
   }
 
   Set<Polygon> _createPolygon() {
@@ -178,15 +212,50 @@ class _EvacuacionState extends State<Evacuacion> {
     return pl;
   }
 
-  //Set<Polyline> _createPolyline() {
-  //var pln = Set<Polyline>();
-  //pln.add(Polyline(
-  //polylineId: PolylineId("ruta mas cercana"),
-  //points: [
-  //LatLng(-33.020852694572724, -71.56565563835588),
-  //LatLng(_isInZona().distanceMin[0], _isInZona().distnaceMin[1])
-  //],
-  //visible: _onOf));
-  //return pln;
-  //}
+  _showDialogAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('¡¡ALERTA!!'),
+            content: Text(
+                'Usted se encuentra en una zona de peligro, se le recomienda evacuar en caso de una emergencia sismica'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Mostrar zona segura mas cercana"),
+                onPressed: () {
+                  Navigator.pop(context);
+                  _showSegureZone();
+                },
+              ),
+              FlatButton(
+                child: Text("Cancelar"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  _showDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Usted esta a salvo'),
+            content: Text(
+                'Se encuentra fuera de una zona de peligro de tsunami, de todos modos tenga precausion en caso de algun sismo'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Aceptar"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
 }
