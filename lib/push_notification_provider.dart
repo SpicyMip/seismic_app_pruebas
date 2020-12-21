@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:provider/provider.dart';
 
 class PushNotificationProvider {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -12,10 +11,12 @@ class PushNotificationProvider {
   // Estas funciones sirven para activar y desactivar las notificaciones
   // Al agregar la funcionalidad borrar la linea que esta en main.dart
   void fcmSubscribe() {
+    // Esta activa las notificaciones
     _firebaseMessaging.subscribeToTopic('Temblores');
   }
 
   void fcmUnSubscribe() {
+    // Esta desactiva las notificaciones
     _firebaseMessaging.unsubscribeFromTopic('TopicToListen');
   }
   //
