@@ -9,7 +9,7 @@ class Home2 extends StatefulWidget {
 }
 
 class Home2State extends State<Home2> {
-  int _selectItem = 1;
+  int _selectItem = 0;
   var _nameAppBar = Text('Registro de sismos');
   _getDrawerItemWidget(int pos) {
     switch (pos) {
