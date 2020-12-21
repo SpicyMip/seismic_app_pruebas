@@ -2,13 +2,40 @@ import requests
 import json
 import pyrebase
 
+import firebase_admin
+from firebase_admin import credentials, messaging
+# SDK ADMIN
+cred = credentials.Certificate("serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
+
+# PUSH MESSAGES
+def sendPush(title, msg, dataObject=None):
+    # See documentation on defining a message payload.
+    message = messaging.Message(
+        notification=messaging.Notification(
+            title=title,
+            body=msg
+        ),
+        topic='Temblores'
+    )
+
+    # Send a message to the device corresponding to the provided
+    # registration token.
+    response = messaging.send(message)
+    # Response is a message ID string.
+    print('Successfully sent message:', response)
+
+
+
+
 # Configuracion Firebase
 #######################################################
 config = {
   "apiKey": "apiKey",
   "authDomain": "seismicapp-ab75b.firebaseapp.com",
   "databaseURL": "https://seismicapp-ab75b.firebaseio.com/",
-  "storageBucket": "seismicapp-ab75b"
+  "storageBucket": "seismicapp-ab75b",
+  "serviceAccount": "serviceAccountKey.json"
 }
 
 firebase = pyrebase.initialize_app(config)
@@ -55,6 +82,7 @@ for dato1 in compararApi:
     else:
         posACambiar.append(pos)
         print('Entrada nueva encontrada')
+        sendPush('Temblor: '+dato1['Magnitud'],'A '+dato1['RefGeografica'])
     pos += 1
 
 if posACambiar != []:
@@ -62,4 +90,3 @@ if posACambiar != []:
         db.child("temblores").push(compararApi[x])
         print('Entradas añadidas con exito')
 
-input()
