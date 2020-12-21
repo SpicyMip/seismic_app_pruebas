@@ -65,15 +65,17 @@ class _EvacuacionState extends State<Evacuacion> {
     [-32.99141763648258, -71.5472624908634],
   ];
   var safezonas = [
-    [-33.009166923158446, -71.53554289650576, "0"],
-    [-32.99599129943124, -71.54254821773232, "1"],
-    [-32.98983886453856, -71.54475200798443, "2"],
-    [-33.02203180076847, -71.51743496129272, "3"],
-    [-33.01990308579516, -71.56429170615716, "4"],
-    [-33.032377408884976, -71.56473445014508, "5"],
-    [-33.02815260157279, -71.55242405147742, "6"],
-    [-33.03756952838828, -71.54670457326169, "7"],
-    [-33.038385120449725, -71.52777722773263, "8"],
+    [-33.03879990871838, -71.52639938400202, "0"],
+    [-33.03634498192958, -71.54636577315614, "1"],
+    [-33.02948003129769, -71.55257544511413, "2"],
+    [-33.03248999856177, -71.5649225555366, "3"],
+    [-33.01992162231435, -71.56436659825623, "4"],
+    [-32.98975930662811, -71.54485385525989, "5"],
+    [-32.99575762030109, -71.54277171881937, "6"],
+    [-32.99839772358575, -71.54360456023089, "7"],
+    [-33.00926727915674, -71.53591922863917, "8"],
+    [-33.014472832756766, -71.53511800619837, "9"],
+    [-33.021715230298504, -71.51735099179487, "10"],
   ];
 
   @override
@@ -132,11 +134,11 @@ class _EvacuacionState extends State<Evacuacion> {
   }
 
   _isInZona() {
-    dynamic distanceMax = 0;
+    dynamic distanceMax = 0.0;
     for (var i in dontsafezona) {
       for (var k in dontsafezona) {
         dynamic distance =
-            (sqrt(pow((i[0] - k[0]), 2) + pow((i[1] - k[1]), 2))).round();
+            (sqrt(pow((i[0] - k[0]), 2) + pow((i[1] - k[1]), 2)));
         if (distance >= distanceMax) {
           distanceMax = distance;
         }
@@ -144,8 +146,7 @@ class _EvacuacionState extends State<Evacuacion> {
     }
     for (var i in dontsafezona) {
       dynamic distance = (sqrt(pow((i[0] - _currentPosition.latitude), 2) +
-              pow((i[1] - _currentPosition.longitude), 2)))
-          .round();
+          pow((i[1] - _currentPosition.longitude), 2)));
       if (distance > distanceMax) {
         setState(() {
           _onOf = false;
@@ -159,15 +160,14 @@ class _EvacuacionState extends State<Evacuacion> {
   }
 
   _showSegureZone() {
-    dynamic distanceMin = 999;
-    var point = [];
+    dynamic distanceMin = 99999.9;
+    dynamic point = [];
     for (var i in safezonas) {
       dynamic distance = (sqrt(pow((_currentPosition.latitude - i[0]), 2) +
-              pow((_currentPosition.longitude - i[1]), 2)))
-          .round();
+          pow((_currentPosition.longitude - i[1]), 2)));
       if (distance <= distanceMin) {
         distanceMin = distance;
-        point = i;
+        point = LatLng(i[0], i[1]);
       }
     }
     _centerView(point);
