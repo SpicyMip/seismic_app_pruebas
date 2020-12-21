@@ -9,7 +9,7 @@ class Home2 extends StatefulWidget {
 }
 
 class Home2State extends State<Home2> {
-  int _selectItem = 0;
+  int _selectItem = 1;
   var _nameAppBar = Text('Registro de sismos');
   _getDrawerItemWidget(int pos) {
     switch (pos) {
@@ -54,8 +54,8 @@ class Home2State extends State<Home2> {
         title: _getAppBar(_selectItem),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.settings),
-            tooltip: 'Ajustes',
+            icon: Icon(Icons.notifications),
+            tooltip: 'Notificaciones',
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => Ajustes2(),
@@ -132,22 +132,61 @@ class Ajustes2 extends StatefulWidget {
 
 class _Ajustes2State extends State<Ajustes2> {
   bool _val = true;
+  double _currentSliderValue = 5.5;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ajustes"),
+        title: Text("Ajustes de notificaciones"),
       ),
       body: Column(children: <Widget>[
-        Switch(
-          value: _val,
-          onChanged: (bool state) {
-            setState(() {
-              _val = state;
-            });
-          },
-        ),
+        Card(
+            child: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text(
+                "Activar/Desactivar notificaciones",
+                style: TextStyle(fontSize: 20),
+              ),
+              Switch(
+                value: _val,
+                onChanged: (bool state) {
+                  setState(() {
+                    _val = state;
+                  });
+                },
+              ),
+            ],
+          ),
+          height: 100,
+        )),
+        Card(
+            child: Container(
+          height: 150,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Magnitud minima a notificar",
+                style: TextStyle(fontSize: 20),
+              ),
+              Slider(
+                onChanged: (double value) {
+                  setState(() {
+                    _currentSliderValue = value;
+                  });
+                },
+                value: _currentSliderValue,
+                min: 0,
+                max: 10,
+                label: _currentSliderValue.toString(),
+                divisions: 20,
+              )
+            ],
+          ),
+        ))
       ]),
     );
   }
