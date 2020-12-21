@@ -19,8 +19,6 @@ class Home2State extends State<Home2> {
         return Evacuacion();
       case 2:
         return Contactos2();
-      case 3:
-        return null;
       case 4:
         return Nosotros();
     }
@@ -44,9 +42,6 @@ class Home2State extends State<Home2> {
       case 2:
         _nameAppBar = Text('Contactos de emergencia');
         return _nameAppBar;
-      case 3:
-        _nameAppBar = Text('Ajustes y Preferencias');
-        return _nameAppBar;
       case 4:
         _nameAppBar = Text('Acerca de nosotros');
         return _nameAppBar;
@@ -62,7 +57,9 @@ class Home2State extends State<Home2> {
             icon: Icon(Icons.settings),
             tooltip: 'Ajustes',
             onPressed: () {
-              _onSelect(3);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => Ajustes2(),
+              ));
             },
           ),
         ],
@@ -124,6 +121,34 @@ class Home2State extends State<Home2> {
         ),
       ),
       body: _getDrawerItemWidget(_selectItem),
+    );
+  }
+}
+
+class Ajustes2 extends StatefulWidget {
+  @override
+  _Ajustes2State createState() => _Ajustes2State();
+}
+
+class _Ajustes2State extends State<Ajustes2> {
+  bool _val = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Ajustes"),
+      ),
+      body: Column(children: <Widget>[
+        Switch(
+          value: _val,
+          onChanged: (bool state) {
+            setState(() {
+              _val = state;
+            });
+          },
+        ),
+      ]),
     );
   }
 }
