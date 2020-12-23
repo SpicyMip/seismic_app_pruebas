@@ -156,6 +156,7 @@ class _Ajustes2State extends State<Ajustes2> {
                   setState(() {
                     _val = state;
                   });
+                  _showDialog2(context);
                 },
               ),
             ],
@@ -189,5 +190,25 @@ class _Ajustes2State extends State<Ajustes2> {
         ))
       ]),
     );
+  }
+
+  _showDialog2(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Reiniciar la aplicacion'),
+            content: Text(
+                'Para aplicar los ajustes se debe reiniciar la aplicacion'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Aceptar"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
   }
 }
