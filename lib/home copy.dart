@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'push_notification_provider.dart';
 import 'registro.dart';
 import 'evacuacion2.dart';
 import 'contactos2.dart';
 import 'nosotros.dart';
+import 'main.dart';
 
 class Home2 extends StatefulWidget {
   Home2State createState() => Home2State();
@@ -131,8 +133,8 @@ class Ajustes2 extends StatefulWidget {
 }
 
 class _Ajustes2State extends State<Ajustes2> {
-  bool _val = true;
-  double _currentSliderValue = 5.5;
+  bool _val = SharedPrefs().notificaciones;
+  double _currentSliderValue = SharedPrefs().magnitud;
 
   @override
   Widget build(BuildContext context) {
@@ -155,6 +157,12 @@ class _Ajustes2State extends State<Ajustes2> {
                 onChanged: (bool state) {
                   setState(() {
                     _val = state;
+                    SharedPrefs().notif(state);
+                    if (_val == true) {
+                      PushNotificationProvider().fcmSubscribe();
+                    } else {
+                      PushNotificationProvider().fcmUnSubscribe();
+                    }
                   });
                 },
               ),

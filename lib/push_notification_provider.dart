@@ -17,7 +17,7 @@ class PushNotificationProvider {
 
   void fcmUnSubscribe() {
     // Esta desactiva las notificaciones
-    _firebaseMessaging.unsubscribeFromTopic('TopicToListen');
+    _firebaseMessaging.unsubscribeFromTopic('Temblores');
   }
   //
 
