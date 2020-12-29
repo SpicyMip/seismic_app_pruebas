@@ -25,6 +25,15 @@ def sendPush(title, msg, dataObject=None):
     # Response is a message ID string.
     print('Successfully sent message:', response)
 
+def PushPorTopic(Magnitud,title,msg):
+    valor = Magnitud.split()[0]
+    magnitud = float(valor)
+    Topics = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0]
+    for numero in Topics:
+        if magnitud >= numero:
+            sendPush(title,msg,str(numero))
+            print('Mensaje enviado a '+str(numero))
+    print('Mensajes enviado(s) Correctamente')
 
 
 
@@ -82,7 +91,7 @@ for dato1 in compararApi:
     else:
         posACambiar.append(pos)
         print('Entrada nueva encontrada')
-        sendPush('Temblor: '+dato1['Magnitud'],'A '+dato1['RefGeografica'])
+        PushPorTopic(dato1['Magnitud'],'Temblor: '+dato1['Magnitud'],'A '+dato1['RefGeografica'])
     pos += 1
 
 if posACambiar != []:

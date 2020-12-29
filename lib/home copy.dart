@@ -159,9 +159,11 @@ class _Ajustes2State extends State<Ajustes2> {
                     _val = state;
                     SharedPrefs().notif(state);
                     if (_val == true) {
-                      PushNotificationProvider().fcmSubscribe();
+                      PushNotificationProvider().fcmUnSubscribeAll();
+                      PushNotificationProvider()
+                          .fcmSubscribe(_currentSliderValue);
                     } else {
-                      PushNotificationProvider().fcmUnSubscribe();
+                      PushNotificationProvider().fcmUnSubscribeAll();
                     }
                   });
                   _showDialog2(context);
@@ -187,6 +189,7 @@ class _Ajustes2State extends State<Ajustes2> {
                     onChanged: (double value) {
                       setState(() {
                         _currentSliderValue = value;
+                        SharedPrefs().magni(value);
                       });
                     },
                     value: _currentSliderValue,
@@ -198,6 +201,9 @@ class _Ajustes2State extends State<Ajustes2> {
                   FlatButton(
                     child: Text("Aplicar"),
                     onPressed: () {
+                      PushNotificationProvider().fcmUnSubscribeAll();
+                      PushNotificationProvider()
+                          .fcmSubscribe(_currentSliderValue);
                       _showDialog2(context);
                     },
                   )
