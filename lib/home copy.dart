@@ -11,7 +11,7 @@ class Home2 extends StatefulWidget {
 }
 
 class Home2State extends State<Home2> {
-  int _selectItem = 1;
+  int _selectItem = 0;
   var _nameAppBar = Text('Registro de sismos');
   _getDrawerItemWidget(int pos) {
     switch (pos) {
@@ -164,6 +164,7 @@ class _Ajustes2State extends State<Ajustes2> {
                       PushNotificationProvider().fcmUnSubscribe();
                     }
                   });
+                  _showDialog2(context);
                 },
               ),
             ],
@@ -180,22 +181,52 @@ class _Ajustes2State extends State<Ajustes2> {
                 "Magnitud minima a notificar",
                 style: TextStyle(fontSize: 20),
               ),
-              Slider(
-                onChanged: (double value) {
-                  setState(() {
-                    _currentSliderValue = value;
-                  });
-                },
-                value: _currentSliderValue,
-                min: 0,
-                max: 10,
-                label: _currentSliderValue.toString(),
-                divisions: 20,
-              )
+              Column(
+                children: <Widget>[
+                  Slider(
+                    onChanged: (double value) {
+                      setState(() {
+                        _currentSliderValue = value;
+                      });
+                    },
+                    value: _currentSliderValue,
+                    min: 0,
+                    max: 10,
+                    label: _currentSliderValue.toString(),
+                    divisions: 20,
+                  ),
+                  FlatButton(
+                    child: Text("Aplicar"),
+                    onPressed: () {
+                      _showDialog2(context);
+                    },
+                  )
+                ],
+              ),
             ],
           ),
         ))
       ]),
     );
+  }
+
+  _showDialog2(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Reiniciar la aplicacion'),
+            content: Text(
+                'Para aplicar los ajustes se debe reiniciar la aplicacion'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Aceptar"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
   }
 }
